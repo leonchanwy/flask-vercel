@@ -41,9 +41,12 @@ def transcribe_audio(input_audio_path, output_srt_path, api_key, language='en', 
         return f"An error occurred during transcription: {str(e)}"
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def home():
-    return 'Welcome! This is a Flask application for audio transcription.</br><a href="/upload">Click here to transcribe your audio file.</a>'
+    if request.method == 'POST':
+        # 在这里处理 POST 请求
+        return "POST request processed"
+    return 'Welcome! This is a Flask application for audio transcription.<br><a href="/upload">Click here to transcribe your audio file.</a>'
 
 
 @app.route('/upload', methods=['GET', 'POST'])
