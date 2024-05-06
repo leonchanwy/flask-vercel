@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload File</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Upload file for Processing</h1>
+        <!-- 使用Flask的flash消息来显示状态消息 -->
+        {% if message %}
+            <div class="alert alert-info">{{ message }}</div>
+        {% endif %}
+        <form action="/" method="post" enctype="multipart/form-data" class="mb-3">
+            <div class="form-group">
+                <label for="apiInput">API Key:</label>
+                <input type="text" class="form-control" id="apiInput" name="api_key" placeholder="Enter your OpenAI API Key" required>
+            </div>
+            <div class="custom-file">
+                <input type="file" name="file" class="custom-file-input" id="customFile" required>
+                <label class="custom-file-label" for="customFile">Choose file</label>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Upload</button>
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script>
+        // Update the label to display the names of chosen files
+        $('.custom-file-input').on('change', function() {
+            let fileName = Array.from(this.files).map(file => file.name).join(', ');
+            $(this).next('.custom-file-label').addClass("selected").html(fileName);
+        });
+        function downloadBase64File(contentType, base64Data, fileName) {
+            const link = document.createElement("a");
+            link.href = `data:${contentType};base64,${base64Data}`;
+            link.download = fileName;
+            link.click();
+        }
+    </script>
+    
+</body>
+</html>
